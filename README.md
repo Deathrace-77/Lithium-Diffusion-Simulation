@@ -2,7 +2,7 @@
 
 Interactive physics-based simulation demonstrating how particle size affects lithium-ion diffusion rates in battery electrodes.
 
-**🌐 Live Demo:** [View Simulation](https://DEATHRACE-77.github.io/lithium-diffusion-simulation/)
+**🌐 Live Demo:** [View Simulation](https://deathrace-77.github.io/Lithium-Diffusion-Simulation/)
 
 ## 🔬 About
 
