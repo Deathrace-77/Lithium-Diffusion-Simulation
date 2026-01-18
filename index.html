@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lithium Diffusion Simulation - Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-left">
+            <img src="images/tks-logo.png" alt="TKS Logo" class="tks-logo" onerror="this.style.display='none'">
+            <span>Ishaan Singh • TKS</span>
+        </div>
+        <div class="nav-right">
+            <a href="simulation.html" class="nav-link">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                Simulation
+            </a>
+            <a href="#about" class="nav-link">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/>
+                </svg>
+                About
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1 class="hero-title">Simulating Lithium Diffusion</h1>
+            <p class="hero-subtitle">Understanding Nano vs Micro Particle Performance</p>
+            <p class="hero-badge">TKS Focus Project</p>
+        </div>
+    </section>
+
+    <!-- Project Overview -->
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <h2 class="section-title">Project Overview</h2>
+                <p class="text-content">
+                    This interactive simulation demonstrates how particle size dramatically affects lithium-ion 
+                    diffusion rates in battery electrodes. By modeling the relationship between particle radius 
+                    and charging time, we can visualize why nanotechnology is revolutionizing battery performance.
+                </p>
+                <div class="info-box">
+                    <strong>Key Insight:</strong> Diffusion time scales with radius squared (t ∝ L²). 
+                    Reducing particle size from micrometers to nanometers can reduce charging times by 
+                    factors of thousands.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Section -->
+    <section class="section">
+        <div class="container">
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title">Research Article</h3>
+                    <div class="article-preview">
+                        <img src="images/article-title.png">
+                    </div>
+                    <a href="https://medium.com/@singhishaanr/nanomaterials-for-extreme-performance-energy-storage-5e69b1d19101" target="_blank" class="btn btn-primary">Read Full Article</a>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title">Quick Access QR</h3>
+                    <div class="qr-code-container">
+                        <img src="images/QR-code.png">
+                    </div>
+                    <p class="text-center text-small">Scan to access article on mobile</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section class="section" id="about">
+        <div class="container">
+            <div class="card">
+                <div class="flex-header">
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/>
+                    </svg>
+                    <h3 class="section-title">About Me</h3>
+                </div>
+                <div class="grid-about">
+                    <div class="about-me-container">
+                        <img src="images/about-me.png">
+                    </div>
+                    <div class="about-content">
+                        <p class="text-content">
+                            I’m Ishaan Singh! I am currently focusing on how nanostructured materials can unlock new regimes of battery performance, and I am working on trying to simulate and research syntheses to compare different nano-architected anodes and electrolytes.
+                        </p>
+                        <p class="text-content">
+                            I am a 16-year-old high school student in JSS International School, Dubai. I like physics, computers, math, music, and materials science and computational modeling through TKS (The Knowledge Society).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TKS Work Gallery -->
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <h3 class="section-title">TKS Project Gallery</h3>
+                <div class="grid-3">
+                    <div class="gallery-item">
+                        <div class="about-me-container">
+                            <img src="images/article-title-2.png">
+                        </div>
+                        <a href="https://medium.com/@singhishaanr/rebranding-the-education-system-through-gamification-and-ai-96619c212ee8" target="_blank" class="btn btn-primary">Read Full Article</a>
+                        <h4 class="gallery-title">Learn Article 1</h4>
+                        <p class="gallery-description">Rebranding the Education System through Gamification and AI
+</p>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-image">
+                            <span>Replicate 2</span>
+                        </div>
+                        <h4 class="gallery-title">Coming soon!</h4>
+                        <p class="gallery-description">Machine learning model that will help predict optimal nano-structures and compositions.</p>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-image">
+                            <span>Focus Project</span>
+                        </div>
+                        <h4 class="gallery-title">Coming Soon!</h4>
+                        <p class="gallery-description">I will figure it out soon.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Ishaan Singh • TKS Innovation Project</p>
+        </div>
+    </footer>
+</body>
+</html>

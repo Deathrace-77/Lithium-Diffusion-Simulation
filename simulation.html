@@ -1,0 +1,275 @@
+<!-- 
+═══════════════════════════════════════════════════════════════════════════════
+REPLACE YOUR ENTIRE simulation.html FILE WITH THIS
+═══════════════════════════════════════════════════════════════════════════════
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lithium Diffusion Simulation</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-left">
+            <img src="tks-logo.png" alt="TKS Logo" class="tks-logo" onerror="this.style.display='none'">
+            <span>Ishaan Singh • TKS</span>
+        </div>
+        <div class="nav-right">
+            <a href="index.html" class="nav-link">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                Home
+            </a>
+            <button id="toggleBtn" class="btn btn-control">
+                <svg class="btn-icon" id="playIcon" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+                <svg class="btn-icon hidden" id="pauseIcon" viewBox="0 0 24 24" fill="currentColor">
+                    <rect x="6" y="4" width="4" height="16"/>
+                    <rect x="14" y="4" width="4" height="16"/>
+                </svg>
+                <span id="toggleText">Start</span>
+            </button>
+            <button id="resetBtn" class="btn btn-control">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="1 4 1 10 7 10"/>
+                    <polyline points="23 20 23 14 17 14"/>
+                    <path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/>
+                </svg>
+                <span>Reset</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Simulation Header with Controls -->
+    <section class="sim-header">
+        <div class="container">
+            <div class="card">
+                <h2 class="section-title">Lithium Diffusion Simulation</h2>
+                <p class="text-content">
+                    Modeling diffusion time using <strong>t ≈ L²/D</strong> where L is particle radius and D is the diffusion coefficient
+                </p>
+                
+                <!-- User Controls -->
+                <div class="controls-section">
+                    <div class="control-group">
+                        <label class="control-label">Maximum Particle Size</label>
+                        <div class="number-input-container">
+                            <div class="number-input-wrapper">
+                                <input type="number" id="maxParticleSize" class="number-input" value="1000" min="10" max="10000" step="10">
+                                <span class="input-unit">nm</span>
+                            </div>
+                            <span class="input-hint">Range: 10 - 10,000 nm</span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Minimum Particle Size</label>
+                        <div class="number-input-container">
+                            <div class="number-input-wrapper">
+                                <input type="number" id="minParticleSize" class="number-input" value="1" min="0.1" max="1000" step="0.1">
+                                <span class="input-unit">nm</span>
+                            </div>
+                            <span class="input-hint">Range: 0.1 - 1,000 nm</span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="diffusionCoefficient">Diffusion Coefficient (m²/s)</label>
+                        <div class="number-input-container">
+                            <select id="diffusionCoefficient" class="select-control">
+                                <option value="1e-12">10⁻¹² (High - Fast diffusion)</option>
+                                <option value="1e-14" selected>10⁻¹⁴ (Medium - Typical)</option>
+                                <option value="1e-16">10⁻¹⁶ (Low - Slow diffusion)</option>
+                                <option value="custom">Custom Value</option>
+                            </select>
+                            <div id="customDiffusionInput" class="number-input-wrapper hidden" style="margin-top: 0.5rem;">
+                                <input type="number" id="customDiffusion" class="number-input" placeholder="e.g., 1e-13" step="any">
+                                <span class="input-unit">m²/s</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="baselineSelect">Baseline Comparison</label>
+                        <select id="baselineSelect" class="select-control">
+                            <option value="10000">10 µm (10,000 nm)</option>
+                            <option value="1000">1 µm (1,000 nm)</option>
+                            <option value="100">100 nm</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Stats Display -->
+                <div class="stats-container">
+                    <div class="stat-box">
+                        <div class="stat-label">Current Particle Size</div>
+                        <div class="stat-value" id="currentSize">--</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Diffusion Time</div>
+                        <div class="stat-value" id="diffusionTime">--</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Improvement Factor</div>
+                        <div class="stat-value" id="improvementFactor">--</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Data Points</div>
+                        <div class="stat-value" id="dataCount">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Animation and Chart Section -->
+    <section class="section">
+        <div class="container">
+            <div class="grid-animation">
+                <!-- Animation Window -->
+                <div class="card animation-card">
+                    <h3 class="card-title">Particle Diffusion Animation</h3>
+                    <canvas id="animationCanvas"></canvas>
+                    <div class="animation-info">
+                        <div class="legend-container">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #ef4444;"></div>
+                                <span>Baseline Particle</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #10b981;"></div>
+                                <span>Current Particle</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart Display -->
+                <div class="card chart-card">
+                    <div class="chart-header">
+                        <h3 class="card-title">Data Visualization</h3>
+                        <select id="chartSelect" class="select-control">
+                            <option value="diffusion">Diffusion Time vs Particle Radius</option>
+                            <option value="improvement">Improvement Factor vs Particle Radius</option>
+                        </select>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="mainChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Findings -->
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <h3 class="section-title">Key Findings</h3>
+                <div class="grid-2">
+                    <div class="info-box info-box-teal">
+                        <h4 class="info-title">Quadratic Scaling</h4>
+                        <p>
+                            Diffusion time increases with the square of particle radius. A 10× size reduction 
+                            leads to 100× faster diffusion.
+                        </p>
+                    </div>
+                    <div class="info-box info-box-blue">
+                        <h4 class="info-title">Practical Impact</h4>
+                        <p>
+                            Nanoparticles (10-100 nm) enable dramatically faster charging compared to 
+                            microparticles (1-10 µm).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Model Interpretation -->
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <h3 class="section-title">Model Interpretation</h3>
+                <p class="text-content">
+                    This physics-based model demonstrates why nanoscale electrode architectures are crucial 
+                    for next-generation batteries. By reducing diffusion distances, we convert what was once 
+                    a charging bottleneck into a practical fast-charging solution.
+                </p>
+                <div class="info-box info-box-yellow">
+                    <strong>Example:</strong> For medium diffusion coefficient (10⁻¹⁴ m²/s), reducing particle 
+                    size from 10 µm to 100 nm decreases diffusion time from hours to milliseconds—enabling 
+                    ultra-fast charging capabilities.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Model Limitations -->
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <h3 class="section-title">Model Limitations</h3>
+                <ul class="limitations-list">
+                    <li>
+                        <strong>Simplified Physics:</strong> This model isolates diffusion only. Real batteries 
+                        involve surface reactions, SEI formation, electronic transport limits, and thermal effects.
+                    </li>
+                    <li>
+                        <strong>Material Variation:</strong> Diffusion coefficient values vary significantly by 
+                        material composition and state-of-charge. Literature values should be consulted for specific 
+                        electrode materials (graphite, silicon, etc.).
+                    </li>
+                    <li>
+                        <strong>Geometric Assumptions:</strong> We assume spherical particles with uniform properties. 
+                        Real electrodes are porous networks with complex 3D architectures that affect mass transport.
+                    </li>
+                    <li>
+                        <strong>System-Level Effects:</strong> Battery performance depends on multiple coupled 
+                        processes beyond single-particle diffusion, including electrolyte transport and current collector design.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Details -->
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <h3 class="section-title">Technical Details</h3>
+                <div class="technical-box">
+                    <p><strong>Governing Equation:</strong> t ≈ L² / D</p>
+                    <p><strong>Particle Radius Range:</strong> User-configurable (logarithmic scale)</p>
+                    <p><strong>Diffusion Coefficients:</strong> Adjustable from 10⁻¹⁶ to 10⁻¹² m²/s</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTop" class="scroll-to-top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Ishaan Singh • TKS Innovation Project</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
